@@ -14,12 +14,11 @@ class IdCollector(object):
     def __init__(self):
         self.html = GetHTML("http://www.imdb.com/chart/top?ref=ft_250").data_request()
         self.ids_list = []
-        self.links = None
 
     def _parse_html_for_links(self):
         parsed_text = BeautifulSoup(self.html.text, "html.parser")
-        self.links = parsed_text.find_all('a', title=True, href=re.compile("^/title/"))
-        return self.links
+        links = parsed_text.find_all('a', title=True, href=re.compile("^/title/"))
+        return links
 
     def get_ids(self, limit): #parse html funkcja
         # returns list of top imdb id's up to a limit
@@ -31,8 +30,11 @@ class IdCollector(object):
                     break
             count += 1
             #get fragment of the link containing imdb tt id
-            tt=link.get('href')[7:16]
+            tt = link.get('href')[7:16]
             self.ids_list.append(tt)
 
         return self.ids_list
-        
+
+if __name__ == '__main__':
+    test = IdCollector()
+    test.get_ids(100)
