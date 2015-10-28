@@ -19,8 +19,7 @@ class DBhelper(object):
     def select_query(self, query): #to which class get this shit to?
         cursor = self.create_cursor()
         print "Query result:", str(cursor.execute(query)),"rows."
-        # print all the cells of all the rows
-        for row in cursor.fetchall() :
+        for row in cursor.fetchall() :  # print all the cells of all the rows
             print row
 
     def insert_one(self, rank, title,year):
@@ -31,7 +30,6 @@ class DBhelper(object):
                 VALUES (%s,%s,%s)""", (rank, title, year)
                 )
             self.db.commit()
-            print '1 row inserted'
         except Exception as e:
             print "exception: ", type(e), e
             self.db.rollback()
